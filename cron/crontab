@@ -1,0 +1,3 @@
+#crontab
+
+@reboot root *start/main

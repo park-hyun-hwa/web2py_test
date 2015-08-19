@@ -1,0 +1,10 @@
+{{extend 'layout.html'}}
+<p>Please enter your first name, last name, and email address - thanks!</p>
+<h2>Inputs:</h2>
+{{=form}}
+<h2>Submitted Fields:</h2>
+{{=BEAUTIFY(request.vars)}}
+<h2>Accepted Fields:</h2>
+{{=BEAUTIFY(form.vars)}}
+<h2>Errors:</h2>
+{{=BEAUTIFY(form.errors)}}

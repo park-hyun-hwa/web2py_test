@@ -1,0 +1,4 @@
+{{extend 'layout.html'}}
+<h2>
+    {{=co2}}
+</h2>

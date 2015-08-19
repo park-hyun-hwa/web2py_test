@@ -1,0 +1,19 @@
+(dp1
+S'output'
+p2
+S''
+sS'layer'
+p3
+S'Framework'
+p4
+sS'code'
+p5
+S''
+sS'snapshot'
+p6
+(dp7
+sS'traceback'
+p8
+S'Traceback (most recent call last):\n  File "/home/pi/hyunhwa/web2py/gluon/main.py", line 447, in wsgibase\n    serve_controller(request, response, session)\n  File "/home/pi/hyunhwa/web2py/gluon/main.py", line 188, in serve_controller\n    page = run_controller_in(request.controller, request.function, environment)\n  File "/home/pi/hyunhwa/web2py/gluon/compileapp.py", line 634, in run_controller_in\n    restricted(code, environment, filename)\n  File "/home/pi/hyunhwa/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/pi/hyunhwa/web2py/applications/test/controllers/default.py", line 101, in <module>\n  File "/home/pi/hyunhwa/web2py/gluon/globals.py", line 412, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/pi/hyunhwa/web2py/gluon/tools.py", line 3769, in f\n    return action(*a, **b)\n  File "/home/pi/hyunhwa/web2py/applications/test/controllers/default.py", line 79, in message_updates\n    return chats.message_updates(db)\n  File "applications/test/modules/chats.py", line 86, in message_updates\n    new_message_event.wait()\n  File "/usr/lib/pymodules/python2.7/gevent/event.py", line 74, in wait\n    result = get_hub().switch()\n  File "/usr/lib/pymodules/python2.7/gevent/hub.py", line 164, in switch\n    return greenlet.switch(self)\nKeyboardInterrupt\n'
+p9
+s.
