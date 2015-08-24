@@ -15,6 +15,7 @@ import fcntl,socket,struct
 import urllib2
 import httplib
 import datetime
+import pygame
 
 from lcd_lib import *
 from seq_set import *
@@ -351,7 +352,6 @@ def current_time():
     curr_time = datetime.datetime.today()
     curr_time = str(curr_time)[:19]
     flow_lcd('current time',curr_time)
-    lock_setting(False)
     print "time : "+str(curr_time)
     time.sleep(2)
 
@@ -423,50 +423,56 @@ def main():
     lcd_init()
     print ip_chk(), wip_chk(), mac_chk(), wmac_chk(), stalk_chk()
     buffers = get_page()
-    '''
+    
     #initialise sound
     pygame.mixer.init()
-    pygame.mixer.music.load("sound_test.mp3")
-    pygame.mixer.music.play()
-    print "start play"
-    '''
-    seq_setting(0)
-    while seq_getting() == 0 :
-        #seq_setting(0)
-        if lock_getting()==False:
-            lock_setting(True)
-            try:
-                current_time()
-                ip_addr()
-                value=tem_humi()
-                tem=value[0]
-                humi=value[1]
-                ppm=CO2()
-                seoul_dust = dust()
-                lock_setting(False)
-            except:
-                pass
-        else : 
-            while lock_getting()==True:
-                print'a'
-                time.sleep(3)
-            lock_setting(True)
-            try:
-                current_time()
-                ip_addr()
-                value=tem_humi()
-                tem=value[0]
-                humi=value[1]
-                ppm=CO2()
-                seoul_dust = dust()
-                lock_setting(False)
-            except:
-                pass
+    pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/sound_test.mp3")
+    
+    seq_init()
+    
+    while True :
+        if seq_getting() == '0':
+            if lock_getting()=='False':
+                lock_setting('True')
+                pygame.mixer.music.play()
+                print "start play"
+                try:
+                    current_time()
+                    ip_addr()
+                    value=tem_humi()
+                    tem=value[0]
+                    humi=value[1]
+                    ppm=CO2()
+                    seoul_dust = dust()
+                    lock_setting('False')
+                except:
+                    pass
+            else :
+                while lock_getting()=='True':
+                    print'a'
+                    time.sleep(3)
+                lock_setting('True')
+                pygame.mixer.music.play()
+                print "start play"
+                try:
+                    current_time()
+                    ip_addr()
+                    value=tem_humi()
+                    tem=value[0]
+                    humi=value[1]
+                    ppm=CO2()
+                    seoul_dust = dust()
+                    lock_setting('False')
+                except:
+                    pass
+        else:
+            time.sleep(1)
   	'''
     print pygame.mixer.music.get_busy()
   	if pygame.mixer.music.get_busy()==0:
   		print "start re-play"
     		pygame.mixer.music.play()
-     '''
+    '''
+    
         send_data(tem,humi,ppm,seoul_dust)
         #pygame.mixer.music.unpause()

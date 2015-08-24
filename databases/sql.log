@@ -124,3 +124,10 @@ CREATE TABLE sht20(
     co2 CHAR(512)
 );
 success!
+timestamp: 2015-08-20T14:21:59.644831
+CREATE TABLE phh_order(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    phh_order_name CHAR(512),
+    phh_order_value CHAR(512)
+);
+success!

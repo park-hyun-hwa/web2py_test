@@ -3,6 +3,7 @@ db = DAL('sqlite://storage.sqlite',
         migrate_enabled=True, lazy_tables=True)
 
 from gluon.tools import Auth
+from gluon import current
 auth = Auth(db)
 
 auth.define_tables(username=False, signature=False)
@@ -11,7 +12,9 @@ auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
 
-
+#current.sequence = 2 #0:background,1:alert by LCD,2:lock,3:unlock
+#current.lock = False
+current.db=db
 db.define_table('chat',
         Field('me_from'),
         Field('me_body', 'text'),
@@ -22,3 +25,6 @@ db.define_table('sht20',
                 Field('temperature'),
                 Field('humidity'),
                 Field('co2'))
+db.define_table('phh_order',
+                Field('phh_order_name'),
+                Field('phh_order_value'))

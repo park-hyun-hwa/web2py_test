@@ -3,6 +3,7 @@
 from gluon import *
 from lcd_lib import *
 from seq_set import *
+import pygame
 
 LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line
 LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
@@ -29,10 +30,17 @@ def flow_lcd(line1_str,line2_str):
 
 def alert_lcd(num):
     seq_getting()
-    seq_setting(1)
+    seq_setting('1')
     lcd_init()
-    if lock_getting()==False:
-        lock_setting(True)
+    #initialise sound
+    pygame.mixer.init()
+    pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/alarm.mp3")
+    if lock_getting() == 'False':
+        lock_setting('True')
+        
+        pygame.mixer.music.play()
+        print "start play"
+        
         if num == '1':
             time.sleep(1)
             flow_lcd('Temperature too high','Turn on Fan')
@@ -49,13 +57,18 @@ def alert_lcd(num):
             time.sleep(1)
             flow_lcd('CO2 too high','Open the windows')
             pinkLCDon()
-        lock_setting(False)
-        seq_getting()
-        seq_setting(0)
+        lock_getting()
+        lock_setting('False')
+        
     else :
-        while lock_getting()==True:
+        while lock_getting() == 'True':
+            print 'bb'
             time.sleep(3)
-        lock_setting(True)
+        lock_setting('True')
+
+        pygame.mixer.music.play()
+        print "start play"
+        
         if num == '1':
             time.sleep(1)
             flow_lcd('Temperature too high','Turn on Fan')
@@ -72,4 +85,7 @@ def alert_lcd(num):
             time.sleep(1)
             flow_lcd('CO2 too high','Open the windows')
             pinkLCDon()
-        lock_setting(False)
+        lock_getting()
+        lock_setting('False')
+    seq_getting()
+    seq_setting('0')
