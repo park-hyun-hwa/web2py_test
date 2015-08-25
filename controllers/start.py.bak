@@ -426,16 +426,59 @@ def main():
     
     #initialise sound
     pygame.mixer.init()
-    pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/alarm.mp3")
+    pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/sound_test.mp3")
     pygame.mixer.music.play()
-    print "start play"
+    #logger.debug("a")
+    #logger.debug()
     
+    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_setting/0')
+    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/False')
+    
+    while True:
+        if urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_getting').read() == '0':
+            if urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting').read()=='False':
+                urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/True')
+                pygame.mixer.music.play()
+                print "start play"
+                try:
+                    current_time()
+                    ip_addr()
+                    value=tem_humi()
+                    tem=value[0]
+                    humi=value[1]
+                    ppm=CO2()
+                    seoul_dust = dust()
+                    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/False')
+                except:
+                    pass
+            else :
+                while urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting').read()=='True':
+                    time.sleep(3)
+                urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/True')
+                pygame.mixer.music.play()
+                print "start play"
+                try:
+                    current_time()
+                    ip_addr()
+                    value=tem_humi()
+                    tem=value[0]
+                    humi=value[1]
+                    ppm=CO2()
+                    seoul_dust = dust()
+                    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/False')
+                except:
+                    pass
+        else:
+            time.sleep(1)
+    '''
     seq_init()
     
     while True :
         if seq_getting() == '0':
             if lock_getting()=='False':
                 lock_setting('True')
+                pygame.mixer.music.play()
+                print "start play"
                 try:
                     current_time()
                     ip_addr()
@@ -452,6 +495,8 @@ def main():
                     print'a'
                     time.sleep(3)
                 lock_setting('True')
+                pygame.mixer.music.play()
+                print "start play"
                 try:
                     current_time()
                     ip_addr()
@@ -465,12 +510,11 @@ def main():
                     pass
         else:
             time.sleep(1)
-  	'''
+            
     print pygame.mixer.music.get_busy()
   	if pygame.mixer.music.get_busy()==0:
   		print "start re-play"
     		pygame.mixer.music.play()
     '''
-    
-        send_data(tem,humi,ppm,seoul_dust)
+    send_data(tem,humi,ppm,seoul_dust)
         #pygame.mixer.music.unpause()

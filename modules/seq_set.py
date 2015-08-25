@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from gluon import *
-from gluon.globals import *
 
+'''
 def seq_init():
     db = current.db
     if db(db.phh_order.phh_order_name == 'number').isempty() :
@@ -43,3 +42,34 @@ def lock_setting(state):
     is_lock = lock_row.phh_order_value
     db.commit()
     print "lock_set:%s" %is_lock
+'''
+
+
+sequence=3
+lock=False
+
+def seq_init():
+    global sequence
+    global lock
+    sequence = 0
+    lock = False
+
+def seq_getting():
+    global sequence
+    print "seq_get : %d" %sequence
+    return sequence
+
+def seq_setting(value):
+    global sequence
+    sequence=value
+    print "seq_set : %d" %sequence
+    
+def lock_getting():
+    global lock
+    print "lock_get:%s" %lock
+    return lock
+
+def lock_setting(value):
+    global lock
+    lock=value
+    print "lock_set:%s" %lock

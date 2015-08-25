@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 from gluon import *
 from lcd_lib import *
-from seq_set import *
+#from seq_set_control import *
+from pcmtest import *
 import pygame
+
+#from seq_set import *
 
 LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line
 LCD_LINE_2 = 0xC0 # LCD RAM address for the 2nd line
@@ -29,14 +32,14 @@ def flow_lcd(line1_str,line2_str):
             time.sleep(1)
 
 def alert_lcd(num):
-    seq_getting()
-    seq_setting('1')
+    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_getting')
+    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_setting/1')
     lcd_init()
     #initialise sound
     pygame.mixer.init()
     pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/alarm.mp3")
-    if lock_getting() == 'False':
-        lock_setting('True')
+    if urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting') == 'False':
+        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/True')
         
         pygame.mixer.music.play()
         print "start play"
@@ -57,14 +60,13 @@ def alert_lcd(num):
             time.sleep(1)
             flow_lcd('CO2 too high','Open the windows')
             pinkLCDon()
-        lock_getting()
-        lock_setting('False')
+        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting')
+        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/False')
         
     else :
-        while lock_getting() == 'True':
-            print 'bb'
+        while urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting') == 'True':
             time.sleep(3)
-        lock_setting('True')
+        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/True')
 
         pygame.mixer.music.play()
         print "start play"
@@ -85,7 +87,7 @@ def alert_lcd(num):
             time.sleep(1)
             flow_lcd('CO2 too high','Open the windows')
             pinkLCDon()
-        lock_getting()
-        lock_setting('False')
-    seq_getting()
-    seq_setting('0')
+        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting')
+        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/False')
+    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_getting')
+    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_setting/0')

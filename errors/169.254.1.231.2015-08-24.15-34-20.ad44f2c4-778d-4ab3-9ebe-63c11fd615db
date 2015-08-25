@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'sequence' is not defined"
+p3
+sS'layer'
+p4
+S'/home/pi/hyunhwa/web2py/applications/test/controllers/seq_set.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# try something like\nfrom gluon import *\nfrom gluon.globals import *\n\n\n\ndef index(): return dict(message="hello from seq_set.py")\n\ndef seq_init():\n    global sequence\n    global lock\n    sequence = 0\n    lock = False\n    return True\n\ndef seq_getting():\n    global sequence\n    print "seq_get : %s" %sequence\n    return sequence\n\ndef seq_setting():\n    global sequence\n    sequence=request.args(0)\n    print "seq_set : %s" %sequence\n    return sequence\n    \ndef lock_getting():\n    global lock\n    print "lock_get:%s" %lock\n    return lock\n\ndef lock_setting():\n    global lock\n    lock=request.args(0)\n    print "lock_set:%s" %lock\n    return lock\n\nresponse._vars=response._caller(seq_getting)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/pi/hyunhwa/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/pi/hyunhwa/web2py/applications/test/controllers/seq_set.py", line 39, in <module>\n  File "/home/pi/hyunhwa/web2py/gluon/globals.py", line 412, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/pi/hyunhwa/web2py/applications/test/controllers/seq_set.py", line 19, in seq_getting\n    print "seq_get : %s" %sequence\nNameError: global name \'sequence\' is not defined\n'
+p11
+s.

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+from gluon import *
+from gluon.globals import *
 '''
 def seq_init():
     db = current.db
@@ -45,14 +46,8 @@ def lock_setting(state):
 '''
 
 
-sequence=2
-lock=False
-
-def seq_init():
-    global sequence
-    global lock
-    sequence = 0
-    lock = False
+global sequence='2'
+global lock=False
 
 def seq_getting():
     global sequence
