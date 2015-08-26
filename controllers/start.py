@@ -18,7 +18,7 @@ import datetime
 import pygame
 
 from lcd_lib import *
-#from seq_set import *
+from seq_set import *
 
 ##### SHT20 define####
 SHT20_ADDR = 0x40       # SHT20 register address => 1000 0000
@@ -422,7 +422,7 @@ def main():
     # Initialise display
     lcd_init()
     print ip_chk(), wip_chk(), mac_chk(), wmac_chk(), stalk_chk()
-    buffers = get_page()
+    #buffers = get_page()
     
     #initialise sound
     pygame.mixer.init()
@@ -431,46 +431,7 @@ def main():
     #logger.debug("a")
     #logger.debug()
     
-    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_setting/0')
-    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/False')
-    
-    while True:
-        if urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_getting').read() == '0':
-            if urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting').read()=='False':
-                urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/True')
-                pygame.mixer.music.play()
-                print "start play"
-                try:
-                    current_time()
-                    ip_addr()
-                    value=tem_humi()
-                    tem=value[0]
-                    humi=value[1]
-                    ppm=CO2()
-                    seoul_dust = dust()
-                    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/False')
-                except:
-                    pass
-            else :
-                while urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting').read()=='True':
-                    time.sleep(3)
-                urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/True')
-                pygame.mixer.music.play()
-                print "start play"
-                try:
-                    current_time()
-                    ip_addr()
-                    value=tem_humi()
-                    tem=value[0]
-                    humi=value[1]
-                    ppm=CO2()
-                    seoul_dust = dust()
-                    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/False')
-                except:
-                    pass
-        else:
-            time.sleep(1)
-    '''
+
     seq_init()
     
     while True :
@@ -510,7 +471,7 @@ def main():
                     pass
         else:
             time.sleep(1)
-            
+    '''       
     print pygame.mixer.music.get_busy()
   	if pygame.mixer.music.get_busy()==0:
   		print "start re-play"

@@ -9,8 +9,6 @@ global lock
 sequence = 2
 lock = False
 
-def index(): return dict(message="hello from seq_set_control.py")
-
 def seq_init():
     global sequence
     global lock

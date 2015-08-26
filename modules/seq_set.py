@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
+from gluon import *
+from gluon.globals import *
+
 def seq_init():
     db = current.db
     if db(db.phh_order.phh_order_name == 'number').isempty() :
@@ -73,3 +75,4 @@ def lock_setting(value):
     global lock
     lock=value
     print "lock_set:%s" %lock
+'''

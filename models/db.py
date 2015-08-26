@@ -28,3 +28,6 @@ db.define_table('sht20',
 db.define_table('phh_order',
                 Field('phh_order_name'),
                 Field('phh_order_value'))
+db.define_table('play_list',
+                Field('song_name'))
+db.play_list.song_name.requires=IS_IN_SET(('sound_test.mp3','alarm.mp3'))

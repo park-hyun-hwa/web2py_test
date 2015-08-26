@@ -36,6 +36,8 @@ div.error { background-color: red; color: white; padding: 3px; }
        <a href="https://169.254.1.231:8000/test/default/chatting.html">Chatting</a> 
         &nbsp; &nbsp; &nbsp; &nbsp;
        <a href="https://169.254.1.231:8000/test/default/tsdb.html">OpneTSDB</a>
+       &nbsp; &nbsp; &nbsp; &nbsp;
+       <a href="https://169.254.1.231:8000/test/default/player_control.html">MP3 Player</a>
     <script>
       jQuery(document).ready(function(){jQuery('ul.web2py-menu').superfish({delay:400});});
     </script>

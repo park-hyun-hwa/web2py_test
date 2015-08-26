@@ -18,7 +18,7 @@ import datetime
 import pygame
 
 from lcd_lib import *
-from seq_set import *
+from seq_set_control import *
 
 ##### SHT20 define####
 SHT20_ADDR = 0x40       # SHT20 register address => 1000 0000
@@ -422,7 +422,7 @@ def main():
     # Initialise display
     lcd_init()
     print ip_chk(), wip_chk(), mac_chk(), wmac_chk(), stalk_chk()
-    buffers = get_page()
+    #buffers = get_page()
     
     #initialise sound
     pygame.mixer.init()

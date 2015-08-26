@@ -4,6 +4,3 @@
 
 
 <input type="button" value="그래프 확인하기 "onclick="location.href='http://10.255.254.227:4242/#start={{=time}}&m=sum:sht20.humi&o=&m=sum:sht20.temp&o=&m=sum:rc1.co2.ppm&o=axis%20x1y2&m=sum:html.dust&o=&yrange=%5B0:%5D&y2range=%5B0:%5D&key=out%20center%20top%20box&wxh=924x741&autoreload=15'";>
-
-<iframe width="800" height="800" src="http://10.255.254.227:4242/#start={{=time}}&m=sum:sht20.humi&o=&m=sum:sht20.temp&o=&m=sum:rc1.co2.ppm&o=axis%20x1y2&m=sum:html.dust&o=&yrange=%5B0:%5D&y2range=%5B0:%5D&key=out%20center%20top%20box&wxh=924x741&autoreload=15" name="tsdb" id="tsdb" frameborder="1" scrolling="yes">
-</iframe>

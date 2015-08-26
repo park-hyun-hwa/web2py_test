@@ -3,9 +3,8 @@
 from gluon import *
 from gluon.globals import *
 
-
-sequence = ''
-lock = ''
+sequence='2'
+lock = 'init'
 
 def seq_init():
     global sequence

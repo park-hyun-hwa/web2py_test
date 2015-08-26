@@ -9,7 +9,7 @@ from gluon.serializers import *
 from sht_db import *
 from dust import *
 from co2 import *
-from lcd import alert_lcd
+from lcd import alert_lcd,message_alert
 
 new_message_event = Event()
 
@@ -63,7 +63,12 @@ def message_new(db):
         msg = _create_message(db, name, body)
         value=body.split('/')
         alert_lcd(value[1])
-        
+    elif "send message" in body:
+        print "send message"
+        msg = _create_message(db,name,body)
+        value = body.split('/')
+        print "%s" %value[1]
+        message_alert(name,value[1])
     else :
         msg = _create_message(db, name, body)
     new_message_event.set()

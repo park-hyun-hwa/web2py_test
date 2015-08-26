@@ -39,6 +39,7 @@ def _():
     app = request.application
     ctr = request.controller
     # useful links to internal and external resources
+    """
     response.menu += [
         (T('My Sites'), False, URL('admin', 'default', 'site')),
           (T('This App'), False, '#', [
@@ -133,6 +134,10 @@ def _():
                'http://webchat.freenode.net/?channels=web2py'),
               ]),
         ]
+        """
+    response.menu += [
+        (T('Register'),False,'https://169.254.1.231/test/default/check_form.html')
+        ]
 if DEVELOPMENT_MENU: _()
 
-if "auth" in locals(): auth.wikimenu() 
+if "auth" in locals(): auth.wikimenu()

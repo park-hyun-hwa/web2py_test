@@ -95,5 +95,8 @@ def tsdb():
     timegap = timedelta(hours=3)
     before = now - timegap
     current_time=before.strftime("%Y/%m/%d-%H:%M:%S")
-    
     return dict(time=T(current_time))
+
+def player_control():
+    form = SQLFORM(db.play_list)
+    return dict(form=form)

@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 from gluon import *
 from lcd_lib import *
-#from seq_set_control import *
-from pcmtest import *
+from seq_set import *
 import pygame
 
 #from seq_set import *
@@ -15,79 +14,122 @@ def flow_lcd(line1_str,line2_str):
 
     dif1 = len(line1_str)-16
     dif2 = len(line2_str)-16
-    if dif1>=dif2:
-        print 'flow'
-        for i in range(dif1+2) :
-            fin_line1_str = line1_str[i:i+15]
-            fin_line2_str = line2_str[i:i+15]
-            lcd_string('%s' %(fin_line1_str),LCD_LINE_1,1)
-            lcd_string('%s' % (fin_line2_str),LCD_LINE_2,1)
-            time.sleep(1)
+    if dif1>=0 or dif2>=0:
+        if dif1>=dif2:
+            for i in range(dif1+2) :
+                fin_line1_str = line1_str[i:i+15]
+                fin_line2_str = line2_str[i:i+15]
+                lcd_string('%s' %(fin_line1_str),LCD_LINE_1,1)
+                lcd_string('%s' % (fin_line2_str),LCD_LINE_2,1)
+                time.sleep(1)
+        elif dif1<dif2 :
+            for i in range(dif2+2) :
+                fin_line1_str = line1_str[i:i+15]
+                fin_line2_str = line2_str[i:i+15]
+                lcd_string('%s' %(fin_line1_str),LCD_LINE_1,1)
+                lcd_string('%s' % (fin_line2_str),LCD_LINE_2,1)
+                time.sleep(1)
     else :
-    	for i in range(dif2+2) :
-            fin_line1_str = line1_str[i:i+15]
-            fin_line2_str = line2_str[i:i+15]
-            lcd_string('%s' %(fin_line1_str),LCD_LINE_1,1)
-            lcd_string('%s' % (fin_line2_str),LCD_LINE_2,1)
-            time.sleep(1)
-
+        lcd_string('%s' %(line1_str),LCD_LINE_1,1)
+        lcd_string('%s' % (line2_str),LCD_LINE_2,1)
+        time.sleep(1)
+        
 def alert_lcd(num):
-    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_getting')
-    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_setting/1')
+    seq_getting()
+    seq_setting('1')
     lcd_init()
     #initialise sound
     pygame.mixer.init()
     pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/alarm.mp3")
-    if urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting') == 'False':
-        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/True')
+    if lock_getting() == 'False':
+        lock_setting('True')
         
         pygame.mixer.music.play()
         print "start play"
         
         if num == '1':
             time.sleep(1)
-            flow_lcd('Temperature too high','Turn on Fan')
             redLCDon()
+            flow_lcd('Temperature too high','Turn on Fan')
         elif num == '2':
             time.sleep(1)
-            flow_lcd('Humidity too high','Turn on Air conditioning')
             blueLCDon()
+            flow_lcd('Humidity too high','Turn on Air conditioning')
         elif num == '3':
             time.sleep(1)
-            flow_lcd('Dust too high','Close the windows')
             yellowLCDon()
+            flow_lcd('Dust too high','Close the windows')
         elif num == '4':
             time.sleep(1)
-            flow_lcd('CO2 too high','Open the windows')
             pinkLCDon()
-        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting')
-        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/False')
+            flow_lcd('CO2 too high','Open the windows')
+        lock_getting()
+        lock_setting('False')
         
     else :
-        while urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting') == 'True':
+        while lock_getting() == 'True':
+            print 'bb'
             time.sleep(3)
-        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/True')
+        lock_setting('True')
 
         pygame.mixer.music.play()
         print "start play"
         
         if num == '1':
             time.sleep(1)
-            flow_lcd('Temperature too high','Turn on Fan')
             redLCDon()
+            flow_lcd('Temperature too high','Turn on Fan')
         elif num == '2':
             time.sleep(1)
-            flow_lcd('Humidity too high','Turn on Air conditioning')
             blueLCDon()
+            flow_lcd('Humidity too high','Turn on Air conditioning')
         elif num == '3':
             time.sleep(1)
-            flow_lcd('Dust too high','Close the windows')
             yellowLCDon()
+            flow_lcd('Dust too high','Close the windows')
         elif num == '4':
             time.sleep(1)
-            flow_lcd('CO2 too high','Open the windows')
             pinkLCDon()
-        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_getting')
-        urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/lock_setting/False')
-    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_getting')
-    urllib2.urlopen('https://169.254.1.231:8000/test/seq_set/seq_setting/0')
+            flow_lcd('CO2 too high','Open the windows')
+        lock_getting()
+        lock_setting('False')
+    seq_getting()
+    seq_setting('0')
+
+def message_alert(name,content):
+    seq_getting()
+    seq_setting('1')
+    lcd_init()
+    #initialise sound
+    pygame.mixer.init()
+    pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/alarm.mp3")
+    if lock_getting() == 'False':
+        lock_setting('True')
+        
+        pygame.mixer.music.play()
+        print "start play"
+
+        time.sleep(1)
+        pinkLCDon()
+        flow_lcd(name,content)
+        time.sleep(2)
+        lock_getting()
+        lock_setting('False')
+        
+    else :
+        while lock_getting() == 'True':
+            print 'bb'
+            time.sleep(3)
+        lock_setting('True')
+
+        pygame.mixer.music.play()
+        print "start play"
+        
+        time.sleep(1)
+        pinkLCDon()
+        flow_lcd(name,content)
+        time.sleep(2)
+        lock_getting()
+        lock_setting('False')
+    seq_getting()
+    seq_setting('0')

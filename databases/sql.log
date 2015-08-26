@@ -131,3 +131,9 @@ CREATE TABLE phh_order(
     phh_order_value CHAR(512)
 );
 success!
+timestamp: 2015-08-26T15:43:52.566482
+CREATE TABLE play_list(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    song_name CHAR(512)
+);
+success!

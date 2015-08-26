@@ -1,0 +1,602 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.ImportError'> No module named pcmtest"
+p3
+sS'layer'
+p4
+S'/home/pi/hyunhwa/web2py/applications/test/controllers/default.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# this file is released under public domain and you can use without limitations\n\n#########################################################################\n## This is a sample controller\n## - index is the default action of any application\n## - user is required for authentication and authorization\n## - download is for downloading files uploaded in the db (does streaming)\n#########################################################################\n\nimport chats\nfrom sht_db import *\nfrom co2 import *\nfrom datetime import datetime, timedelta\nfrom time import localtime,strftime\n\n#from co2 import syncfind,checkAlignment,init_process\n\ndef index():\n    response.flash = T("Welcome to web2py!")\n    return dict(message=T(\'Hello Hyun Hwa Test Page\'))\n\n\ndef user():\n    return dict(form=auth())\n\n\n@cache.action()\ndef download():\n    return response.download(request, db)\n\n\ndef call():\n    return service()\n\n\n\ndef check_form():\n    #update = db.register(request.args(0))\n    form = SQLFORM(db.client)\n    if form.accepts(request,session):\n        response.flash = \'Thanks! The form has been submitted.\'\n    elif form.errors:\n       response.flash = \'Please correct the error(s).\'\n    else:\n       response.flash = \'Try again - no fields can be empty.\'\n    return dict(form=form)\n\ndef all_records():\n    grid = SQLFORM.grid(db.auth_user,user_signature=False)\n    return locals()\n\ndef sht_db():\n    #db.sht20.insert(data_time=datetime.datetime.now(),temperature=sht_db_main(1),humidity=sht_db_main(2),co2=0)\n    #time.sleep(10)\n    #grid = SQLFORM.grid(db.sht20,user_signature=False)\n    \n    #db.chat.insert(data_time=datetime.datetime.now(),temperature=sht_db_main(1),humidity=sht_db_main(2),co2=0)\n    #chats._create_message(db,\'temperature\',sht_db_main(1))\n    #chats._create_message(db,\'humidity\',sht_db_main(2))\n    grid = SQLFORM.grid(db.chat,user_signature=False)\n    return locals()\n   \n\n@auth.requires_login()\ndef chatting():\n    return chats.index(db)\n\n#@auth.requires_signature()\ndef message_new():\n    return chats.message_new(db)\n\n@auth.requires_signature()\ndef message_updates():\n    # need to unlock the session when using\n    # session file, should not be need it when\n    # using session in db, or in a cookie\n    session._unlock(response)\n    return chats.message_updates(db)\n\n#@auth.requires_signature()\ndef sensor_updates():\n    #chats._create_message(db, \'temperature\', "\xed\x98\x84\xec\x9e\xac \xec\x98\xa8\xeb\x8f\x84\xeb\x8a\x94 "+str(sht_db_main(1))+" \xe2\x84\x83 \xec\x9e\x85\xeb\x8b\x88\xeb\x8b\xa4.")\n    #chats._create_message(db, \'humidity\', "\xed\x98\x84\xec\x9e\xac \xec\x8a\xb5\xeb\x8f\x84\xeb\x8a\x94 "+str(sht_db_main(2))+" \xef\xbc\x85 \xec\x9e\x85\xeb\x8b\x88\xeb\x8b\xa4.")\n    if sht_db_main(1)>28:\n        chats._create_message(db, \'temperature\', "\xed\x98\x84\xec\x9e\xac \xec\x98\xa8\xeb\x8f\x84\xeb\x8a\x94 "+str(sht_db_main(1))+" \xe2\x84\x83 \xec\x9e\x85\xeb\x8b\x88\xeb\x8b\xa4.\\n\xec\x98\xa8\xeb\x8f\x84\xea\xb0\x80 \xeb\x84\x88\xeb\xac\xb4 \xeb\x86\x92\xec\x8a\xb5\xeb\x8b\x88\xeb\x8b\xa4.\\n\xeb\xaa\x85\xeb\xa0\xb9 : alert by LCD/1")\n    elif sht_db_main(2)>70:\n        chats._create_message(db, \'humidity\', "\xed\x98\x84\xec\x9e\xac \xec\x8a\xb5\xeb\x8f\x84\xeb\x8a\x94 "+str(sht_db_main(2))+" \xef\xbc\x85 \xec\x9e\x85\xeb\x8b\x88\xeb\x8b\xa4.\\n\xec\x8a\xb5\xeb\x8f\x84\xea\xb0\x80 \xeb\x84\x88\xeb\xac\xb4 \xeb\x86\x92\xec\x8a\xb5\xeb\x8b\x88\xeb\x8b\xa4. \\n\xeb\xaa\x85\xeb\xa0\xb9 : alert by LCD/2")\n    else :\n        chats._create_message(db, \'none\', "\xec\xbe\x8c\xec\xa0\x81\xed\x95\x9c \xec\x83\x81\xed\x83\x9c\xec\x9e\x85\xeb\x8b\x88\xeb\x8b\xa4.")\n    return chats.index(db)\n\ndef tsdb():\n    now = datetime.now()\n    timegap = timedelta(hours=3)\n    before = now - timegap\n    current_time=before.strftime("%Y/%m/%d-%H:%M:%S")\n    \n    return dict(time=T(current_time))\n\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__hash__'
+p12
+S"<method-wrapper '__hash__' of exceptions.ImportError object>"
+p13
+sS'__setattr__'
+p14
+S"<method-wrapper '__setattr__' of exceptions.ImportError object>"
+p15
+sS'__reduce_ex__'
+p16
+S'<built-in method __reduce_ex__ of exceptions.ImportError object>'
+p17
+sS'__getslice__'
+p18
+S"<method-wrapper '__getslice__' of exceptions.ImportError object>"
+p19
+sS'__getitem__'
+p20
+S"<method-wrapper '__getitem__' of exceptions.ImportError object>"
+p21
+sS'__setstate__'
+p22
+S'<built-in method __setstate__ of exceptions.ImportError object>'
+p23
+sS'__reduce__'
+p24
+S'<built-in method __reduce__ of exceptions.ImportError object>'
+p25
+sS'__str__'
+p26
+S"<method-wrapper '__str__' of exceptions.ImportError object>"
+p27
+sS'__format__'
+p28
+S'<built-in method __format__ of exceptions.ImportError object>'
+p29
+sS'__getattribute__'
+p30
+S"<method-wrapper '__getattribute__' of exceptions.ImportError object>"
+p31
+sS'__class__'
+p32
+S"<type 'exceptions.ImportError'>"
+p33
+sS'__unicode__'
+p34
+S'<built-in method __unicode__ of exceptions.ImportError object>'
+p35
+sS'__delattr__'
+p36
+S"<method-wrapper '__delattr__' of exceptions.ImportError object>"
+p37
+sS'__subclasshook__'
+p38
+S'<built-in method __subclasshook__ of type object>'
+p39
+sS'__repr__'
+p40
+S"<method-wrapper '__repr__' of exceptions.ImportError object>"
+p41
+sS'args'
+p42
+S"('No module named pcmtest',)"
+p43
+sS'__dict__'
+p44
+S'{}'
+p45
+sS'__sizeof__'
+p46
+S'<built-in method __sizeof__ of exceptions.ImportError object>'
+p47
+sS'__doc__'
+p48
+S'"Import can\'t find module, or can\'t find name in module."'
+p49
+sS'__init__'
+p50
+S"<method-wrapper '__init__' of exceptions.ImportError object>"
+p51
+sS'__new__'
+p52
+S'<built-in method __new__ of type object>'
+p53
+ssS'evalue'
+p54
+S'No module named pcmtest'
+p55
+sS'request'
+p56
+cgluon.html
+XML_unpickle
+p57
+(S's\xdf[\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>169.254.55.203</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>default</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>169.254.55.203-5ffb9841-3c5b-4020-b24a-6ac95f97c8b4<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_test</td><td style="vertical-align:top;">:</td><td><div>169.254.55.203-867fd820-7864-4ac7-acc3-d1c409bb337e<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_welcome</td><td style="vertical-align:top;">:</td><td><div>169.254.55.203-3b9a6257-bb63-40a2-ad1c-483fa0a97a74<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">HTTPS</td><td style="vertical-align:top;">:</td><td><div>on</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CACHE_CONTROL</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_welcome=169.254.55.203-3b9a6257-bb63-40a2-ad1c-483fa0a97a74; session_id_admin=169.254.55.203-5ffb9841-3c5b-4020-b24a-6ac95f97c8b4; session_id_test=169.254.55.203-867fd820-7864-4ac7-acc3-d1c409bb337e</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>169.254.1.231:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_UPGRADE_INSECURE_REQUESTS</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/test/default/index.html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>169.254.55.203</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>10703</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>hyunhwa</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SSL_CLIENT_RAW_CERT</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/pi/hyunhwa/web2py/applications/test/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/pi/hyunhwa/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x25f1e68: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;169.254.1.231&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [&#x27;127.0.1.1&#x27;], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;scheduler_groups&#x27;: None, &#x27;port&#x27;: 8000, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;hyunhwa&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/pi/hyunhwa/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;server.key&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;tinyos&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;server.crt&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/pi/hyunhwa/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cache_control</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_welcome=169.254.55.203-3b9a6257-bb63-40a2-ad1c-483fa0a97a74; session_id_admin=169.254.55.203-5ffb9841-3c5b-4020-b24a-6ac95f97c8b4; session_id_test=169.254.55.203-867fd820-7864-4ac7-acc3-d1c409bb337e</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>169.254.1.231:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_upgrade_insecure_requests</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">https</td><td style="vertical-align:top;">:</td><td><div>on</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/test/default/index.html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>169.254.55.203</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>10703</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/test/default/index.html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>hyunhwa</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">ssl_client_raw_cert</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/pi/hyunhwa/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.12.0-stable+timestamp.2015.07.20.01.19.51</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0xb6d780d0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x259fea0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x25f35b0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0xb6d780d0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x259fea0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x25f35b0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/pi/hyunhwa/web2py/applications/test/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/pi/hyunhwa/web2py/applications/test/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/pi/hyunhwa/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x25f1e68: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;169.254.1.231&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [&#x27;127.0.1.1&#x27;], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;scheduler_groups&#x27;: None, &#x27;port&#x27;: 8000, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;hyunhwa&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/pi/hyunhwa/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;server.key&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;tinyos&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;server.crt&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/pi/hyunhwa/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>::1</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr><tr><td><div>hyunhwa</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.12.0-stable+timestamp.2015.07.20.01.19.51</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_sheduler</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2015, 8, 25, 12, 50, 43, 90770)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/test/default/index.html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2015, 8, 25, 3, 50, 43, 90964)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x2604d70&gt;</div></td></tr></table></div>'
+tRp58
+sS'frames'
+p59
+(lp60
+(dp61
+S'file'
+p62
+S'/home/pi/hyunhwa/web2py/gluon/restricted.py'
+p63
+sS'dump'
+p64
+(dp65
+S'environment'
+p66
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}"
+p67
+sS'ccode'
+p68
+S'<code object <module> at 0x2774e78, file "/home/...plications/test/controllers/default.py", line 11>'
+p69
+ssS'lnum'
+p70
+I227
+sS'lines'
+p71
+(dp72
+I224
+S'            ccode = code'
+p73
+sI225
+S'        else:'
+p74
+sI226
+S'            ccode = compile2(code, layer)'
+p75
+sI227
+S'        exec ccode in environment'
+p76
+sI228
+S'    except HTTP:'
+p77
+sI229
+S'        raise'
+p78
+sI230
+S'    except RestrictedError:'
+p79
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p80
+sI222
+S'    try:'
+p81
+sI223
+S'        if isinstance(code, types.CodeType):'
+p82
+ssS'call'
+p83
+S"(code='# -*- coding: utf-8 -*-\\n# this file is released ...t_time))\\n\\nresponse._vars=response._caller(index)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}, layer='/home/pi/hyunhwa/web2py/applications/test/controllers/default.py')"
+p84
+sS'func'
+p85
+S'restricted'
+p86
+sa(dp87
+g62
+S'/home/pi/hyunhwa/web2py/applications/test/controllers/default.py'
+p88
+sg64
+(dp89
+S'chats'
+p90
+S'undefined'
+p91
+ssg70
+I11
+sg71
+(dp92
+I6
+S'## - index is the default action of any application'
+p93
+sI7
+S'## - user is required for authentication and authorization'
+p94
+sI8
+S'## - download is for downloading files uploaded in the db (does streaming)'
+p95
+sI9
+S'#########################################################################'
+p96
+sI10
+S''
+sI11
+S'import chats'
+p97
+sI12
+S'from sht_db import *'
+p98
+sI13
+S'from co2 import *'
+p99
+sI14
+S'from datetime import datetime, timedelta'
+p100
+sI15
+S'from time import localtime,strftime'
+p101
+ssg83
+S'()'
+p102
+sg85
+S'<module>'
+p103
+sa(dp104
+g62
+S'/home/pi/hyunhwa/web2py/gluon/custom_import.py'
+p105
+sg64
+(dp106
+S'itemname'
+p107
+S"'chats'"
+p108
+sS'globals'
+p109
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}"
+p110
+sS'modules_prefix'
+p111
+S"'applications.test.modules'"
+p112
+sS'locals'
+p113
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}"
+p114
+sS'level'
+p115
+S'-1'
+p116
+ssg70
+I85
+sg71
+(dp117
+I80
+S'                if not fromlist:'
+p118
+sI81
+S'                    # import like "import x" or "import x.y"'
+p119
+sI82
+S'                    result = None'
+p120
+sI83
+S'                    for itemname in name.split("."):'
+p121
+sI84
+S'                        new_mod = base_importer('
+p122
+sI85
+S'                            modules_prefix, globals, locals, [itemname], level)'
+p123
+sI86
+S'                        try:'
+p124
+sI87
+S"                            result = result or sys.modules[modules_prefix+'.'+itemname]"
+p125
+sI88
+S'                        except KeyError, e:'
+p126
+sI89
+S"                            raise ImportError, 'Cannot import module %s' % str(e)"
+p127
+ssg83
+S"(name='chats', globals={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}, locals={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}, fromlist=[], level=-1)"
+p128
+sg85
+S'custom_importer'
+p129
+sa(dp130
+g62
+S'/home/pi/hyunhwa/web2py/applications/test/modules/chats.py'
+p131
+sg64
+(dp132
+S'lcd'
+p133
+g91
+sS'alert_lcd'
+p134
+g91
+ssg70
+I12
+sg71
+(dp135
+I7
+S'from gluon.serializers import *'
+p136
+sI8
+S''
+sI9
+S'from sht_db import *'
+p137
+sI10
+S'from dust import *'
+p138
+sI11
+S'from co2 import *'
+p139
+sI12
+S'from lcd import alert_lcd'
+p140
+sI13
+S''
+sI14
+S'new_message_event = Event()'
+p141
+sI15
+S''
+sI16
+S'MESSAGE_TEMPLATE = ("""<div class="message" id="m{{ =message[\'id\'] }}">""" """<b>{{ =message[\'me_from\'] }}: </b>""" """<pre>{{ =message[\'me_body\'] }}</pre></div>""")'
+p142
+ssg83
+S'()'
+p143
+sg85
+g103
+sa(dp144
+g62
+S'/home/pi/hyunhwa/web2py/gluon/custom_import.py'
+p145
+sg64
+(dp146
+S'fromlist'
+p147
+S"('alert_lcd',)"
+p148
+sS'global NATIVE_IMPORTER'
+p149
+S'<built-in function __import__>'
+p150
+sS'level'
+p151
+S'-1'
+p152
+sS'globals'
+p153
+S"{'A': None, 'B': None, 'BEAUTIFY': None, 'BODY': None, 'BR': None, 'CAT': None, 'CENTER': None, 'CLEANUP': None, 'CO2': None, 'CODE': None, ...}"
+p154
+sS'locals'
+p155
+S"{'A': None, 'B': None, 'BEAUTIFY': None, 'BODY': None, 'BR': None, 'CAT': None, 'CENTER': None, 'CLEANUP': None, 'CO2': None, 'CODE': None, ...}"
+p156
+sS'name'
+p157
+S"'lcd'"
+p158
+ssg70
+I108
+sg71
+(dp159
+I103
+S'            raise  # there is an error in the module'
+p160
+sI104
+S'        finally:'
+p161
+sI105
+S'            if import_tb:'
+p162
+sI106
+S'                import_tb = None'
+p163
+sI107
+S''
+sI108
+S'    return NATIVE_IMPORTER(name, globals, locals, fromlist, level)'
+p164
+sI109
+S''
+sI110
+S''
+sI111
+S'class TrackImporter(object):'
+p165
+sI112
+S'    """'
+p166
+ssg83
+S"(name='lcd', globals={'A': None, 'B': None, 'BEAUTIFY': None, 'BODY': None, 'BR': None, 'CAT': None, 'CENTER': None, 'CLEANUP': None, 'CO2': None, 'CODE': None, ...}, locals={'A': None, 'B': None, 'BEAUTIFY': None, 'BODY': None, 'BR': None, 'CAT': None, 'CENTER': None, 'CLEANUP': None, 'CO2': None, 'CODE': None, ...}, fromlist=('alert_lcd',), level=-1)"
+p167
+sg85
+g129
+sa(dp168
+g62
+S'/home/pi/hyunhwa/web2py/applications/test/modules/lcd.py'
+p169
+sg64
+(dp170
+S'pcmtest'
+p171
+g91
+ssg70
+I6
+sg71
+(dp172
+I2
+S'# -*- coding: utf-8 -*-'
+p173
+sI3
+S'from gluon import *'
+p174
+sI4
+S'from lcd_lib import *'
+p175
+sI5
+S'#from seq_set_control import *'
+p176
+sI6
+S'from pcmtest import *'
+p177
+sI7
+S'import pygame'
+p178
+sI8
+S''
+sI9
+S'#from seq_set import *'
+p179
+sI10
+S''
+sI11
+S'LCD_LINE_1 = 0x80 # LCD RAM address for the 1st line'
+p180
+ssg83
+S'()'
+p181
+sg85
+g103
+sa(dp182
+g62
+S'/home/pi/hyunhwa/web2py/gluon/custom_import.py'
+p183
+sg64
+(dp184
+S'fromlist'
+p185
+S"('*',)"
+p186
+sS'level'
+p187
+S'-1'
+p188
+sS'base_importer'
+p189
+S'<built-in function __import__>'
+p190
+sS'globals'
+p191
+S"{'A': None, 'B': None, 'BEAUTIFY': None, 'BODY': None, 'BR': None, 'CAT': None, 'CENTER': None, 'CLEANUP': None, 'CODE': None, 'CRYPT': None, ...}"
+p192
+sS'pname'
+p193
+S"'applications.test.modules.pcmtest'"
+p194
+sS'locals'
+p195
+S"{'A': None, 'B': None, 'BEAUTIFY': None, 'BODY': None, 'BR': None, 'CAT': None, 'CENTER': None, 'CLEANUP': None, 'CODE': None, 'CRYPT': None, ...}"
+p196
+ssg70
+I95
+sg71
+(dp197
+I96
+S'        except ImportError, e1:'
+p198
+sI97
+S'            import_tb = sys.exc_info()[2]'
+p199
+sI98
+S'            try:'
+p200
+sI99
+S'                return NATIVE_IMPORTER(name, globals, locals, fromlist, level)'
+p201
+sI90
+S'                        modules_prefix += "." + itemname'
+p202
+sI91
+S'                    return result'
+p203
+sI92
+S'                else:'
+p204
+sI93
+S'                    # import like "from x import a, b, ..."'
+p205
+sI94
+S'                    pname = modules_prefix + "." + name'
+p206
+sI95
+S'                    return base_importer(pname, globals, locals, fromlist, level)'
+p207
+ssg83
+S"(name='pcmtest', globals={'A': None, 'B': None, 'BEAUTIFY': None, 'BODY': None, 'BR': None, 'CAT': None, 'CENTER': None, 'CLEANUP': None, 'CODE': None, 'CRYPT': None, ...}, locals={'A': None, 'B': None, 'BEAUTIFY': None, 'BODY': None, 'BR': None, 'CAT': None, 'CENTER': None, 'CLEANUP': None, 'CODE': None, 'CRYPT': None, ...}, fromlist=('*',), level=-1)"
+p208
+sg85
+g129
+sasS'pyver'
+p209
+S'Python 2.7.3: /usr/bin/python (prefix: /usr)'
+p210
+sS'session'
+p211
+g57
+(S's\x1a\x00\x00\x00<div><table></table></div>'
+tRp212
+sS'etype'
+p213
+S"<type 'exceptions.ImportError'>"
+p214
+sS'date'
+p215
+S'Tue Aug 25 12:50:45 2015'
+p216
+sS'response'
+p217
+g57
+(S'sd\x1e\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x2604a00&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_test</td><td style="vertical-align:top;">:</td><td><div>169.254.55.203-867fd820-7864-4ac7-acc3-d1c409bb337e<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div>: </div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>table3cols</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="navbar-brand" href="http://www.web2py.com/" id="web2py-logo"><b>web<span>2</span>py</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Home</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/test/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Register</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>https://169.254.1.231/test/default/check_form.html</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Your Name &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div>web2py, python, framework</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^default/\\w+\\.py$</div></td></tr><tr><td><div>^default/index/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>169.254.55.203</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_key</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/pi/hyunhwa/web2py/applications/test/sessions/083/0d1/169.254.55.203-867fd820-7864-4ac7-acc3-d1c409bb337e&#x27;, mode &#x27;rb+&#x27; at 0x25bcb78&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/pi/hyunhwa/web2py/applications/test/sessions/169.254.55.203-867fd820-7864-4ac7-acc3-d1c409bb337e</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>6d7d7eb07e9dc380d110635d28f7b57b</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>169.254.55.203-867fd820-7864-4ac7-acc3-d1c409bb337e</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>default/index.html</div></td></tr></table></div>'
+tRp218
+sS'locals'
+p219
+(dp220
+S'fromlist'
+p221
+S"('*',)"
+p222
+sS'modules_prefix'
+p223
+S"'applications.test.modules'"
+p224
+sS'name'
+p225
+S"'pcmtest'"
+p226
+sS'level'
+p227
+S'-1'
+p228
+sS'items'
+p229
+S"['', 'home', 'pi', 'hyunhwa', 'web2py', 'applications', 'test']"
+p230
+sS'base_importer'
+p231
+S'<built-in function __import__>'
+p232
+sS'globals'
+p233
+S"{'A': None, 'B': None, 'BEAUTIFY': None, 'BODY': None, 'BR': None, 'CAT': None, 'CENTER': None, 'CLEANUP': None, 'CODE': None, 'CRYPT': None, ...}"
+p234
+sS'pname'
+p235
+S"'applications.test.modules.pcmtest'"
+p236
+sS'e3'
+p237
+S"ImportError('No module named pcmtest',)"
+p238
+sS'e1'
+p239
+S"ImportError('No module named pcmtest',)"
+p240
+sS'import_tb'
+p241
+S'None'
+p242
+sg219
+S"{'A': None, 'B': None, 'BEAUTIFY': None, 'BODY': None, 'BR': None, 'CAT': None, 'CENTER': None, 'CLEANUP': None, 'CODE': None, 'CRYPT': None, ...}"
+p243
+sS'oname'
+p244
+S"'pcmtest'"
+p245
+sssS'traceback'
+p246
+S'Traceback (most recent call last):\n  File "/home/pi/hyunhwa/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/pi/hyunhwa/web2py/applications/test/controllers/default.py", line 11, in <module>\n    import chats\n  File "/home/pi/hyunhwa/web2py/gluon/custom_import.py", line 85, in custom_importer\n    modules_prefix, globals, locals, [itemname], level)\n  File "applications/test/modules/chats.py", line 12, in <module>\n    from lcd import alert_lcd\n  File "/home/pi/hyunhwa/web2py/gluon/custom_import.py", line 108, in custom_importer\n    return NATIVE_IMPORTER(name, globals, locals, fromlist, level)\n  File "applications/test/modules/lcd.py", line 6, in <module>\n    from pcmtest import *\n  File "/home/pi/hyunhwa/web2py/gluon/custom_import.py", line 95, in custom_importer\n    return base_importer(pname, globals, locals, fromlist, level)\nImportError: No module named pcmtest\n'
+p247
+s.

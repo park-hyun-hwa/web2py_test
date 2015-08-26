@@ -1,0 +1,8 @@
+{{extend 'layout.html'}}
+<h1>This is Player Control Page</h1>
+<h2>
+    You can select,play,pause what you want to play
+</h2>
+
+
+{{=form}}
