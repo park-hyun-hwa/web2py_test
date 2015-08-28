@@ -422,13 +422,13 @@ def main():
     lcd_init()
     print ip_chk(), wip_chk(), mac_chk(), wmac_chk(), stalk_chk()
     buffers = get_page()
-    '''
+    
     #initialise sound
     pygame.mixer.init()
-    pygame.mixer.music.load("sound_test.mp3")
+    pygame.mixer.music.load("shinee.mp3")
     pygame.mixer.music.play()
     print "start play"
-    '''
+    
     
     while True :
         if seq_getting() != 0:
