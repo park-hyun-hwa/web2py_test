@@ -13,6 +13,7 @@ from sht_db import *
 from co2 import *
 from datetime import datetime, timedelta
 from time import localtime,strftime
+import pygame
 
 #from co2 import syncfind,checkAlignment,init_process
 
@@ -99,4 +100,15 @@ def tsdb():
 
 def player_control():
     form = SQLFORM(db.play_list)
+    if form.vars.song_name is not null:
+        if form.accepts(request,session):
+            pygame.mixer.init()
+            pygame.mixer.music.stop()
+            response.flash = 'music stop!!'
+            pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/%s"%form.vars.song_name)
+            pygame.mixer.music.play()
+            response.flash = 'music start!!'
+    else :
+        response.flash = 'file is not selected'
+        
     return dict(form=form)
