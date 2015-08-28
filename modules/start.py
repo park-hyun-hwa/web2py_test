@@ -425,7 +425,7 @@ def main():
     
     #initialise sound
     pygame.mixer.init()
-    pygame.mixer.music.load("shinee.mp3")
+    pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/shinee.mp3")
     pygame.mixer.music.play()
     print "start play"
     
