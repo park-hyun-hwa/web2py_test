@@ -13,6 +13,8 @@ from sht_db import *
 from co2 import *
 from datetime import datetime, timedelta
 from time import localtime,strftime
+import pygame
+from music_control import *
 
 #from co2 import syncfind,checkAlignment,init_process
 
@@ -41,9 +43,9 @@ def check_form():
     if form.accepts(request,session):
         response.flash = 'Thanks! The form has been submitted.'
     elif form.errors:
-       response.flash = 'Please correct the error(s).'
+        response.flash = 'Please correct the error(s).'
     else:
-       response.flash = 'Try again - no fields can be empty.'
+        response.flash = 'Try again - no fields can be empty.'
     return dict(form=form)
 
 def all_records():
@@ -78,7 +80,7 @@ def message_updates():
     session._unlock(response)
     return chats.message_updates(db)
 
-#@auth.requires_signature()
+@auth.requires_signature()
 def sensor_updates():
     #chats._create_message(db, 'temperature', "현재 온도는 "+str(sht_db_main(1))+" ℃ 입니다.")
     #chats._create_message(db, 'humidity', "현재 습도는 "+str(sht_db_main(2))+" ％ 입니다.")
@@ -98,5 +100,18 @@ def tsdb():
     return dict(time=T(current_time))
 
 def player_control():
-    form = SQLFORM(db.play_list)
-    return dict(form=form)
+    form = SQLFORM(db.play_list, submit_button=T("Play"))
+    response.flash =URL('player_control',args=[1])
+    #if form.vars.song_name != Null:
+    music_init()
+    if request.args(0)==1:
+        music_start(form.vars.song_name)
+        response.flash = 'music start!!'
+    elif request.args(0)==0 :
+        music_stop()
+        response.flash = 'music stop!!'
+    elif request.args(0)==-1:
+        music_repeat()
+        response.flash = 'this song is repeated!!'
+        
+    return dict(form=form,play_music=form.vars.song_name)

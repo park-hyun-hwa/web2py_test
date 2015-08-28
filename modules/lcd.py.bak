@@ -14,11 +14,8 @@ def flow_lcd(line1_str,line2_str):
 
     dif1 = len(line1_str)-16
     dif2 = len(line2_str)-16
-    print "dif1:%s"%dif1
-    print "dif2:%s"%dif2
     if dif1>=0 or dif2>=0:
         if dif1>=dif2:
-            print 'flow'
             for i in range(dif1+2) :
                 fin_line1_str = line1_str[i:i+15]
                 fin_line2_str = line2_str[i:i+15]

@@ -4,5 +4,12 @@
     You can select,play,pause what you want to play
 </h2>
 
-
-{{=form}}
+<h2>
+    ....[{{=play_music}}] is the song that is currently playing....
+</h2>
+{{=form.custom.begin}}
+재생 목록 : {{=form.custom.widget.song_name}}
+{{=form.custom.end}}
+<input type="button" value="Play" onClick="{{=URL('player_control',args=[1])}}"/>
+<input type="button" value="Pause" onClick="{{=URL('player_control',args=[0])}}"/>
+<input type="button" value="Repeat this Song" onClick="{{=URL('player_control',args=[-1])}}"/>

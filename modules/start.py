@@ -18,6 +18,7 @@ import datetime
 
 from lcd_lib import *
 from seq_set import *
+from music_control import *
 
 ##### SHT20 define####
 SHT20_ADDR = 0x40       # SHT20 register address => 1000 0000
@@ -424,10 +425,7 @@ def main():
     buffers = get_page()
     
     #initialise sound
-    pygame.mixer.init()
-    pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/shinee.mp3")
-    pygame.mixer.music.play()
-    print "start play"
+    music_start('huhgak.mp3')
     
     
     while True :

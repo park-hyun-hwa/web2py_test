@@ -30,4 +30,4 @@ db.define_table('phh_order',
                 Field('phh_order_value'))
 db.define_table('play_list',
                 Field('song_name'))
-db.play_list.song_name.requires=IS_IN_SET(('sound_test.mp3','alarm.mp3'))
+db.play_list.song_name.requires=IS_IN_SET(('sound_test.mp3','alarm.mp3','huhgak.mp3','love.mp3'))

@@ -80,7 +80,7 @@ def message_updates():
     session._unlock(response)
     return chats.message_updates(db)
 
-@auth.requires_signature()
+#@auth.requires_signature()
 def sensor_updates():
     #chats._create_message(db, 'temperature', "현재 온도는 "+str(sht_db_main(1))+" ℃ 입니다.")
     #chats._create_message(db, 'humidity', "현재 습도는 "+str(sht_db_main(2))+" ％ 입니다.")
@@ -101,17 +101,12 @@ def tsdb():
 
 def player_control():
     form = SQLFORM(db.play_list, submit_button=T("Play"))
-    response.flash =request.args(0)
     #if form.vars.song_name != Null:
     music_init()
-    if request.args(0)==1:
+    if form.accepts(request,session):
         music_start(form.vars.song_name)
-        response.flash = 'music start!!'
-    elif request.args(0)==0 :
-        music_stop()
-        response.flash = 'music stop!!'
-    elif request.args(0)==-1:
-        music_repeat()
-        response.flash = 'this song is repeated!!'
+        #response.flash = 'music start!!'
+    #else :
+     #   response.flash = 'file is not selected'
         
     return dict(form=form,play_music=form.vars.song_name)

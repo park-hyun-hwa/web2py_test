@@ -19,7 +19,7 @@ import pygame
 
 from lcd_lib import *
 from seq_set import *
-
+from music_control import *
 ##### SHT20 define####
 SHT20_ADDR = 0x40       # SHT20 register address => 1000 0000
 SHT20_CMD_R_T = 0xF3    # no hold Master Mode (Temperature) => 1111 0011
@@ -423,14 +423,6 @@ def main():
     lcd_init()
     print ip_chk(), wip_chk(), mac_chk(), wmac_chk(), stalk_chk()
     #buffers = get_page()
-    
-    #initialise sound
-    pygame.mixer.init()
-    pygame.mixer.music.load("/home/pi/hyunhwa/web2py/applications/test/static/sound_test.mp3")
-    pygame.mixer.music.play()
-    #logger.debug("a")
-    #logger.debug()
-    
 
     seq_init()
     
@@ -438,8 +430,6 @@ def main():
         if seq_getting() == '0':
             if lock_getting()=='False':
                 lock_setting('True')
-                pygame.mixer.music.play()
-                print "start play"
                 try:
                     current_time()
                     ip_addr()
